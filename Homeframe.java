@@ -11,7 +11,7 @@ public class Homeframe extends JFrame
         this.setTitle("This is a title");
         this.setSize(200, 200); 
         this.setVisible(true);
-        // this.getContentPane().setBackground(Color.red);
+        this.getContentPane().setBackground(Color.red);
         this.add(label);
     }
 }
