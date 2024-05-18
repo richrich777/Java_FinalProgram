@@ -1,17 +1,18 @@
 package test.frame;
 import javax.swing.*;
-import test.frame.Label1;
 import java.awt.*;
 public class Homeframe extends JFrame
 {
-    Homeframe()
+    Homeframe(String text)
     {
-        Label1 label = new Label1();
+        panel1 panel = new panel1();
+        Button1 button = new Button1("進入書櫃");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setTitle("This is a title");
-        this.setSize(200, 200); 
+        this.setTitle(text);
+        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         this.setVisible(true);
-        this.getContentPane().setBackground(Color.red);
-        this.add(label);
+        this.setResizable(false);
+        panel.add(button);
+        this.add(panel);
     }
 }

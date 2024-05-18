@@ -3,6 +3,6 @@ public class Home
 {
     public static void main(String[] args)
     {
-        new Homeframe();
+        new Homeframe("我的書櫃");
     }
 }
