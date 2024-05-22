@@ -9,4 +9,8 @@ public class Label1 extends JLabel
         this.setText(text);
         this.setBounds(x + 90, y, width, 100);
     }
+    Label1()
+    {
+        
+    }
 }
