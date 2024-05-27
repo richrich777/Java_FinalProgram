@@ -1,5 +1,9 @@
 package test.frame;
 import javax.swing.*;
+
+import test.frame.Panel1;
+import test.frame.SettingWindow;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,50 +20,53 @@ public class Homeframe extends JFrame
     private JLabel label2;
     private Panel1 panel;
     private Clip clip;
+    private JLayeredPane layeredPane;
     private boolean isSettingWindowOpen = false;
 
     Homeframe(String text)
     {
-        // JLayeredPane layeredPane = new JLayeredPane();
-        // layeredPane.setBounds(0, 0, this.getWidth(), this.getHeight());
         playBackgroundMusic("music.wav");
-        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         this.setVisible(true);
         this.setResizable(false);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        this.setSize(screenSize);
+        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         this.setTitle(text);
 
-        //background
-        Panel1 panel = new Panel1();
-        
+        // 分層
+        layeredPane = new JLayeredPane();
+        layeredPane.setBounds(0, 0, screenSize.width, screenSize.height);
+
+        // background
+        panel = new Panel1();
+        panel.setBounds(0, 0, screenSize.width, screenSize.height);
+        layeredPane.add(panel, JLayeredPane.DEFAULT_LAYER);
 
         //GUI Title
         label1 = new JLabel("Welcome to the Diary!");
         label1.setBounds(this.getWidth() / 4 + 90, this.getHeight() / 5, this.getWidth(), 100);
         label1.setFont(new Font(null, Font.PLAIN, 60));
-        label1.setLayout(new FlowLayout(FlowLayout.CENTER));
-        this.add(label1);
+        layeredPane.add(label1, JLayeredPane.PALETTE_LAYER);
         
 
         //entry bookcase button
         button1 = new JButton("Entry Bookcase");
         button1.setBounds(this.getWidth() / 2 - 200, this.getHeight() / 2 + 80, 400, 80);
-        // button1.setLayout(new FlowLayout(FlowLayout.CENTER));
+        button1.setLayout(null);
         button1.addActionListener(new myActionListener());
         button1.setFont(new Font(null, Font.PLAIN, 40));
         button1.setForeground(Color.GREEN);
         button1.setBackground(Color.WHITE);
-        this.add(button1);
+        layeredPane.add(button1, JLayeredPane.PALETTE_LAYER);
 
         // setting button
         button2 = new JButton("setting");
         button2.setBounds(this.getWidth() - 85, 0, 75, 40);
-        button2.setLayout(new FlowLayout(FlowLayout.RIGHT));
         button2.addActionListener(new myActionListener());
-        this.add(button2);
+        layeredPane.add(button2, JLayeredPane.PALETTE_LAYER);
 
-        //最後再加不然有bug
-        this.add(panel);
+        this.add(layeredPane);
     }
 
     private void playBackgroundMusic(String filePath) 
