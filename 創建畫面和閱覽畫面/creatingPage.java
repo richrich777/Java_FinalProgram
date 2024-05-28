@@ -1,8 +1,14 @@
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
+import java.awt.event.*;
 
 public class creatingPage {
-   drawCreatingPage drawPage=new drawCreatingPage();
+   Color coverColor=new Color(102,51,0);
+   Color pageColor=new Color(229,255,204);
+   Color fontColor=Color.BLACK;
+   drawCreatingPage drawPage=new drawCreatingPage(coverColor,pageColor);
    JFrame frame = new JFrame();
    JButton creatingButton = new JButton("創建");
    JRadioButton coverButton= new JRadioButton("cover");
@@ -43,7 +49,7 @@ public class creatingPage {
       greenLabel.setFont(new Font(null, Font.PLAIN, 18));
       blueLabel.setFont(new Font(null, Font.PLAIN, 18));
       decision.setFont(new Font(null, Font.PLAIN, 20));
-      drawPage.setBounds(-40,-40,800,600);
+      drawPage.setBounds(-40,-40,400,500);
       group.add(coverButton);
       group.add(pageButton);
       group.add(fontButton);
@@ -62,11 +68,63 @@ public class creatingPage {
       frame.add(drawPage);
       // 添加 panel 到框架的中央位置
 
-
       frame.setSize(800,600);
       frame.setVisible(true);
-   }
 
+
+      coverButton.addActionListener(new RadioButtonListener());
+      pageButton.addActionListener(new RadioButtonListener());
+      fontButton.addActionListener(new RadioButtonListener());
+
+      redSlider.addChangeListener(new SliderListener());
+      greenSlider.addChangeListener(new SliderListener());
+      blueSlider.addChangeListener(new SliderListener());
+   }
+   private class RadioButtonListener implements ActionListener {
+      int R,G,B;
+      @Override
+      public void actionPerformed(ActionEvent e) {
+         if (e.getSource() == coverButton) {
+            R=coverColor.getRed();
+            G=coverColor.getGreen();
+            B=coverColor.getBlue();
+         } else if (e.getSource() == pageButton) {
+            R=pageColor.getRed();
+            G=pageColor.getGreen();
+            B=pageColor.getBlue();
+         } else if (e.getSource() == fontButton) {
+            R=fontColor.getRed();
+            G=fontColor.getGreen();
+            B=fontColor.getBlue();
+         }
+         redSlider.setValue(R);
+         greenSlider.setValue(G);
+         blueSlider.setValue(B);
+
+      }
+   }
+   private class SliderListener implements ChangeListener{
+      @Override
+      public void stateChanged(ChangeEvent e) {
+         int RedValue = redSlider.getValue();
+         int BlueValue=blueSlider.getValue();
+         int GreenValue=greenSlider.getValue();
+         if(coverButton.isSelected()){
+            coverColor=new Color(RedValue,GreenValue,BlueValue);
+            drawPage.setCoverColor(coverColor);
+            drawPage.repaint();
+         }
+         else if (pageButton.isSelected()){
+            pageColor=new Color(RedValue,GreenValue,BlueValue);
+            drawPage.setPageColor(pageColor);
+            drawPage.repaint();
+         }
+         else{
+            fontColor=new Color(RedValue,GreenValue,BlueValue);
+            drawPage.setFontColor(fontColor);
+         }
+      }
+   }
    public static void main(String[] args){
       creatingPage create = new creatingPage();
    }
