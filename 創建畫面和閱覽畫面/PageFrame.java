@@ -17,7 +17,7 @@ public class PageFrame extends JFrame {
     PageText text;
     PageFrame(String name) {
         this.name=name;
-        text = new PageText("test");
+        text = new PageText(name);
         draw=new drawPage();
         JButton saveButton=new JButton("save");
         JButton open=new JButton("open");
@@ -27,7 +27,7 @@ public class PageFrame extends JFrame {
         open.setBounds(100,25,75,50);
         nextButton.setBounds(175,25,75,50);
         forwardButton.setBounds(250,25,75,50);
-        this.setSize(1000,1000);
+        this.setSize(800,600);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.add(text.area1);
         this.add(text.area2);
@@ -50,7 +50,7 @@ public class PageFrame extends JFrame {
         open.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                text.turnToPage(0);
+                text.turnToPage(1);
             }
         });
         saveButton.addActionListener(new ActionListener() {
@@ -64,4 +64,5 @@ public class PageFrame extends JFrame {
         this.setLocationRelativeTo(null);
         this.setVisible(true);
     }
+
 }
