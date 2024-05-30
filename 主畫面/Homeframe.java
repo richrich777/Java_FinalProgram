@@ -28,33 +28,32 @@ public class Homeframe extends JFrame
         this.setVisible(true);
         this.setResizable(false);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        this.setSize(screenSize);
-        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        this.setSize(800,600);
+        setLocationRelativeTo(null); 
         this.setTitle(text);
 
         // 分層
         layeredPane = new JLayeredPane();
-        layeredPane.setBounds(0, 0, screenSize.width, screenSize.height);
+        layeredPane.setBounds(0, 0, 800, 600);
 
         // background
         panel = new Panel1();
-        panel.setBounds(0, 0, screenSize.width, screenSize.height);
+        panel.setBounds(0, 0, 800, 600);
         layeredPane.add(panel, JLayeredPane.DEFAULT_LAYER);
 
         //GUI Title
         label1 = new JLabel("Welcome to the Diary!");
-        label1.setBounds(this.getWidth() / 4 + 90, this.getHeight() / 5, this.getWidth(), 100);
-        label1.setFont(new Font(null, Font.PLAIN, 60));
+        label1.setBounds(this.getWidth() / 6 - 10, this.getHeight() / 5, this.getWidth(), 100);
+        label1.setFont(new Font(null, Font.PLAIN, 55));
         layeredPane.add(label1, JLayeredPane.PALETTE_LAYER);
         
 
         //entry bookcase button
         button1 = new JButton("Entry Bookcase");
-        button1.setBounds(this.getWidth() / 2 - 200, this.getHeight() / 2 + 80, 400, 80);
+        button1.setBounds(this.getWidth() / 2 - 160, this.getHeight() / 2 + 80, 300, 70);
         button1.setLayout(null);
         button1.addActionListener(new myActionListener());
-        button1.setFont(new Font(null, Font.PLAIN, 40));
+        button1.setFont(new Font(null, Font.PLAIN, 35));
         button1.setForeground(Color.GREEN);
         button1.setBackground(Color.WHITE);
         layeredPane.add(button1, JLayeredPane.PALETTE_LAYER);
@@ -81,8 +80,10 @@ public class Homeframe extends JFrame
             this.setSize(400,400);
             this.setLayout(new GridLayout(8,1));
             this.setResizable(false);
+            setLocationRelativeTo(null); 
+
             // 文字欄位
-            label1 = new JLabel("BGM音量大小");
+            label1 = new JLabel("BGM音量");
             label1.setFont(new Font(null, Font.PLAIN, 20));
             label1.setLayout(new FlowLayout(FlowLayout.RIGHT));
             
