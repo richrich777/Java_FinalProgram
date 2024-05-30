@@ -6,10 +6,8 @@ public class Main {
         BookCase bookCase = new BookCase();
         bookCase.setLayout(null);
         bookCase.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        bookCase.setExtendedState(JFrame.MAXIMIZED_BOTH);
         bookCase.setResizable(false);
         bookCase.setVisible(true);
-        //bookCase.getContentPane().setBackground(Color.YELLOW);
         bookCase.addBooksToBookCase("1");
         bookCase.addBooksToBookCase("2");
         bookCase.addBooksToBookCase("3");

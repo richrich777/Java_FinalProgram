@@ -16,7 +16,7 @@ public class Books extends JPanel {
         SecureRandom random = new SecureRandom();
         int colorIndex = random.nextInt(colors.length);
         super.setBackground(colors[colorIndex]);
-        super.setPreferredSize(new Dimension(30, 100));
+        super.setPreferredSize(new Dimension(20, 80));
         Border blackline = BorderFactory.createLineBorder(Color.black,6);
         super.setBorder(blackline);
         this.bookName = bookName;
@@ -50,6 +50,7 @@ public class Books extends JPanel {
         text.setBounds(0,0,100,100);
         textPanel.add(text,BorderLayout.NORTH);
         textPanel.setBorder(blackline);
+        textPanel.setBackground(new Color(224, 255 ,255));
 
         JPanel readButtonPanel = new JPanel(null);
         JButton readButton = new JButton("Modify");
@@ -57,6 +58,7 @@ public class Books extends JPanel {
         readButton.addActionListener(new ModifyListener());
         readButtonPanel.add(readButton);
         readButtonPanel.setBorder(blackline);
+        readButtonPanel.setBackground(new Color(224, 255 ,255));
 
         bookFrame.add(textPanel);
         bookFrame.add(readButtonPanel);

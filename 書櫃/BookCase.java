@@ -12,12 +12,14 @@ public class BookCase extends JFrame {
     private int currentBookCaseIndex;
     private Label currentBookCaseIndexLabel;
     private GridBagConstraints gbc;
-    private JButton Tomain;
-    private JButton nextButton;
-    private JButton previousButton;
+    private ImageButton Tomain;
+    private ImageButton nextButton;
+    private ImageButton previousButton;
+    private ImageButton addBookButton;
+
     BookCase(){
         super("BookCase");
-        super.getContentPane().setBackground(new Color(224, 255 ,255));
+        super.getContentPane().setBackground(new Color(255, 255 ,255));
         currentBookCaseIndex = 0;
         Border bookcaseline = BorderFactory.createLineBorder(new Color(139, 71 ,38),10);
         bookCasePanel = new JPanel(new GridBagLayout()) {
@@ -28,48 +30,73 @@ public class BookCase extends JFrame {
                 g2.setColor(new Color(139, 71 ,38));
                 g2.setStroke(new BasicStroke(10));
                 int width = getWidth();
-                g2.drawLine(0, 172, width, 172);
-                g2.drawLine(0, 390, width, 390);
-                g2.fillRect(0,610,width,90);
+                g2.drawLine(0, 140, width, 140);
+                g2.drawLine(0, 300, width, 300);
+                g2.fillRect(0,455,width,60);
             }
         };
         gbc = new GridBagConstraints();
-        gbc.insets = new Insets(50, 70, 70, 50); // 設置間隔
+        gbc.insets = new Insets(35, 30, 45, 40); // 設置間隔
         gbc.fill = GridBagConstraints.NONE;
-        bookCasePanel.setBounds( 600,70,820,700);
+        bookCasePanel.setBounds( 275,30,490,520);
         bookCasePanel.setBackground(new Color(139 ,90 ,0));
         bookCasePanel.setBorder(bookcaseline);
         books = new ArrayList<Books>();
 
-        Tomain = new JButton("Home");
+        ImageIcon toMainImage = new ImageIcon("home.png");
+        Tomain = new ImageButton(toMainImage.getImage());
+        Tomain.setBounds(0,0,100,100);
+        Tomain.setBorderPainted(false);
+        Tomain.setContentAreaFilled(false);
         Tomain.addActionListener(new ButtonListener());
-        Tomain.setBounds(10,10,70,70);
 
-        nextButton = new JButton("Next");
-        previousButton = new JButton("Back");
-        nextButton.setBounds(1450,690,70,70);
-        previousButton.setBounds(500,690,70,70);
+        ImageIcon addBookImage = new ImageIcon("addbutton.png");
+        addBookButton = new ImageButton(addBookImage.getImage());
+        addBookButton.setBounds(60,2,100,100);
+        addBookButton.setBorderPainted(false);
+        addBookButton.setContentAreaFilled(false);
+        addBookButton.addActionListener(new ButtonListener());
+
+
+        ImageIcon nextArrowImage = new ImageIcon("nextarrow.png");
+        nextButton = new ImageButton(nextArrowImage.getImage());
+        nextButton.setBorderPainted(false);
+        nextButton.setContentAreaFilled(false);
+        nextButton.setBounds(150,350,70,70);
         nextButton.addActionListener(new ButtonListener());
+
+        ImageIcon preArrowImage = new ImageIcon("prearrow.png");
+        previousButton = new ImageButton(preArrowImage.getImage());
+        previousButton.setBounds(20,350,70,70);
+        previousButton.setBorderPainted(false);
+        previousButton.setContentAreaFilled(false);
+
+
         previousButton.addActionListener(new ButtonListener());
 
         leftBackGroundPanel = new JPanel();
         leftBackGroundPanel.setLayout(null);
         leftBackGroundPanel.setBackground(new Color(255 ,193 ,193));
         currentBookCaseIndexLabel = new Label("Page 1");
-        Font f1 = new Font("Times New Roman",Font.BOLD+ Font.ITALIC,60);
-        currentBookCaseIndexLabel.setBounds(0,350,200,200);
+        Font f1 = new Font("仿宋",Font.BOLD+ Font.ITALIC,50);
+        currentBookCaseIndexLabel.setBounds(45,450,200,100);
         currentBookCaseIndexLabel.setFont(f1);
 
         Toolkit kit = Toolkit.getDefaultToolkit();
         Dimension screenSize = kit.getScreenSize();
         int height = screenSize.height;
-        leftBackGroundPanel.setBounds(0,0,350,height);
+        leftBackGroundPanel.setBounds(0,0,250,height);
         leftBackGroundPanel.add(Tomain);
         leftBackGroundPanel.add(currentBookCaseIndexLabel);
+        leftBackGroundPanel.add(nextButton);
+        leftBackGroundPanel.add(previousButton);
+        leftBackGroundPanel.add(addBookButton);
         getContentPane().add(bookCasePanel);
-        add(nextButton);
-        add(previousButton);
         add(leftBackGroundPanel);
+        setSize(800, 600);
+        int centerX = (screenSize.width - getWidth()) / 2;
+        int centerY = (screenSize.height - getHeight()) / 2;
+        setLocation(centerX, centerY);
     }
 
     public int getBooksCount(){
@@ -97,7 +124,7 @@ public class BookCase extends JFrame {
                     bookCasePanel.add(books.get(index), gbc);
                 } else {
                     JLabel emptyLabel = new JLabel();
-                    emptyLabel.setPreferredSize(new Dimension(30, 100));
+                    emptyLabel.setPreferredSize(new Dimension(20, 80));
                     gbc.gridx = j; // Column index
                     gbc.gridy = i; // Row index
                     bookCasePanel.add(emptyLabel, gbc);
@@ -139,6 +166,9 @@ public class BookCase extends JFrame {
             }
             else if(e.getSource() == Tomain){
                 //go to Home screen
+            }
+            else if(e.getSource() == addBookButton){
+                //go to Create book
             }
         }
     }
