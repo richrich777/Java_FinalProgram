@@ -11,7 +11,7 @@ public class PageText {
     private  String  name;
     public JTextArea area1;
     public JTextArea area2;
-    PageText(String name){
+    PageText (String name){
         this.name=name;
         area1=new JTextArea();
         area2=new JTextArea();
@@ -143,7 +143,7 @@ public class PageText {
 
                 pageNow=page;
             } catch (IOException e) {
-                JOptionPane.showMessageDialog(null, "Error reading file: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                //JOptionPane.showMessageDialog(null, "Error reading file: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
     }
@@ -180,5 +180,12 @@ public class PageText {
             e1.printStackTrace();
         }
         return parentDir != null ? parentDir.getAbsolutePath() : null;
+    }
+    public void setOpacity(float opacity) {
+        area1.setForeground(new Color(0, 0, 0, opacity));
+        area2.setForeground(new Color(0, 0, 0, opacity));
+    }
+    public int getMaxPage(){
+        return maxPage;
     }
 }

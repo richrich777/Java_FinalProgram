@@ -16,11 +16,11 @@ public class drawPage  extends JPanel{
     public void paintComponent(Graphics g){
         Graphics2D draw=(Graphics2D) g;
         draw.setPaint(coverColor);
-        draw.fillRect(100,100,600,400);
+        draw.fillRect(0,0,600,400);
         draw.setPaint(pageColor);
-        draw.fillRect(125,125,550,350);
+        draw.fillRect(25,25,550,350);
         draw.setPaint(Color.BLACK);
         draw.setStroke(new BasicStroke(3));
-        draw.drawLine(400,125,400,475);
+        draw.drawLine(300,25,300,375);
     }//畫出書本樣式
 }
