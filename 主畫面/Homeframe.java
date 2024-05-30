@@ -15,6 +15,7 @@ public class Homeframe extends JFrame
 {
     private JButton button1;
     private JButton button2;
+    private JButton button3;
     private JLabel label1;
     private JLabel label2;
     private Panel1 panel;
@@ -50,13 +51,23 @@ public class Homeframe extends JFrame
 
         //entry bookcase button
         button1 = new JButton("Entry Bookcase");
-        button1.setBounds(this.getWidth() / 2 - 160, this.getHeight() / 2 + 80, 300, 70);
+        button1.setBounds(this.getWidth() / 2 - 160, this.getHeight() / 3 + 80, 300, 70);
         button1.setLayout(null);
         button1.addActionListener(new myActionListener());
         button1.setFont(new Font(null, Font.PLAIN, 35));
         button1.setForeground(Color.GREEN);
         button1.setBackground(Color.WHITE);
         layeredPane.add(button1, JLayeredPane.PALETTE_LAYER);
+
+        // quit button
+        button3 = new JButton("Quit Diary");
+        button3.setBounds(this.getWidth() / 2 - 135, this.getHeight() / 3 + 180, 250, 60);
+        button3.setLayout(null);
+        button3.addActionListener(new myActionListener());
+        button3.setFont(new Font(null, Font.PLAIN, 35));
+        button3.setForeground(Color.GREEN);
+        button3.setBackground(Color.WHITE);
+        layeredPane.add(button3, JLayeredPane.PALETTE_LAYER);
 
         // setting button
         button2 = new JButton("setting");
@@ -79,6 +90,7 @@ public class Homeframe extends JFrame
         {
             this.setSize(400,400);
             this.setLayout(new GridLayout(8,1));
+            this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
             this.setResizable(false);
             setLocationRelativeTo(null); 
 
@@ -172,6 +184,10 @@ public class Homeframe extends JFrame
                         isSettingWindowOpen = false;
                     }
                 });
+            }
+            else if(e.getSource() == button3)
+            {
+                Homeframe.this.dispose();
             }
         }
     }
