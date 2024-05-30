@@ -3,6 +3,10 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 
 public class creatingPage {
    Color coverColor=new Color(102,51,0);
@@ -24,7 +28,15 @@ public class creatingPage {
    JLabel redLabel=new JLabel("紅:");
    JLabel blueLabel=new JLabel("藍:");
    JLabel greenLabel=new JLabel("綠:");
+   JLabel nameText=new JLabel("書本名稱:");
+   JTextPane nameInsertArea=new JTextPane();
+   String name;
+   private CreateListener createListener;  // Define an event listener
 
+   // Method to set the listener
+   public void setCreateListener(CreateListener listener) {
+      this.createListener = listener;
+   }
    public creatingPage(){
       for (int i = 0; i < sliderPanel.length; i++) {
          sliderPanel[i] = new JPanel();
@@ -32,18 +44,22 @@ public class creatingPage {
 
       frame.setLayout(null);
 
-      coverButton.setBounds(440,100,80,30);
-      pageButton.setBounds(520,100,80,30);
-      fontButton.setBounds(600,100,80,30);
-      redLabel.setBounds(440,200,300,30);
-      color.setBounds(425,150,300,30);
-      decision.setBounds(425 ,50,300,30);
-      redSlider.setBounds(450,250 ,300,20);
-      greenLabel.setBounds(440,280,300,30);
-      greenSlider.setBounds(450,330,300,30);
-      blueLabel.setBounds(440,360,300,30);
-      blueSlider.setBounds(450,410,300,30);
-      creatingButton.setBounds(525,475,150,50);
+      nameText.setBounds(425,20,100,30);
+      nameInsertArea.setBounds(440,60,300,30);
+      coverButton.setBounds(440,150,80,30);
+      pageButton.setBounds(520,150,80,30);
+      fontButton.setBounds(600,150,80,30);
+      redLabel.setBounds(440,250,300,30);
+      color.setBounds(425,200,300,30);
+      decision.setBounds(425 ,100,300,30);
+      redSlider.setBounds(450,300 ,300,20);
+      greenLabel.setBounds(440,330,300,30);
+      greenSlider.setBounds(450,380,300,30);
+      blueLabel.setBounds(440,410,300,30);
+      blueSlider.setBounds(450,460,300,30);
+      creatingButton.setBounds(525,500,150,50);
+      nameText.setFont(new Font(null, Font.PLAIN, 20));
+      nameInsertArea.setFont(new Font(null, Font.PLAIN, 20));
       color.setFont(new Font(null, Font.PLAIN, 20));
       redLabel.setFont(new Font(null, Font.PLAIN, 18));
       greenLabel.setFont(new Font(null, Font.PLAIN, 18));
@@ -53,6 +69,8 @@ public class creatingPage {
       group.add(coverButton);
       group.add(pageButton);
       group.add(fontButton);
+      frame.add(nameText);
+      frame.add(nameInsertArea);
       frame.add(decision);
       frame.add(redSlider);
       frame.add(coverButton);
@@ -66,7 +84,8 @@ public class creatingPage {
       frame.add(greenSlider);
       frame.add(creatingButton);
       frame.add(drawPage);
-      // 添加 panel 到框架的中央位置
+
+      nameInsertArea.setBackground(new Color(173,230,255));
 
       frame.setSize(800,600);
       frame.setVisible(true);
@@ -75,6 +94,7 @@ public class creatingPage {
       coverButton.addActionListener(new RadioButtonListener());
       pageButton.addActionListener(new RadioButtonListener());
       fontButton.addActionListener(new RadioButtonListener());
+      creatingButton.addActionListener(new createButtonListener());
 
       redSlider.addChangeListener(new SliderListener());
       greenSlider.addChangeListener(new SliderListener());
@@ -125,8 +145,61 @@ public class creatingPage {
          }
       }
    }
-   public static void main(String[] args){
-      creatingPage create = new creatingPage();
-   }
+   private class createButtonListener implements ActionListener{
+      @Override
+      public void actionPerformed(ActionEvent e){
+         name = nameInsertArea.getText();
+         if (name == null || name.isEmpty()) {
+            JOptionPane.showMessageDialog(frame, "書本名稱不得為空!","Warning", JOptionPane.WARNING_MESSAGE);
+         } else {
+            try {
+               // 獲取當前類的路徑
+               String path = creatingPage.class.getProtectionDomain().getCodeSource().getLocation().getPath();
+               String decodedPath = URLDecoder.decode(path, "UTF-8");
 
+               // 獲取當前類所在資料夾的 File 對象
+               File currentDir = new File(decodedPath).getParentFile();
+               System.out.println("當前類的路徑: " + currentDir.getAbsolutePath());
+
+               // 獲取上一層資料夾的 File 對象
+               File parentDir = currentDir.getParentFile();
+               System.out.println("上一層資料夾的路徑: " + parentDir.getAbsolutePath());
+
+               // 在上一層資料夾中建立一個新子資料夾
+               File newDir = new File(parentDir, name);
+               if (newDir.exists()) {
+                  System.out.println("資料夾已經存在：" + newDir.getAbsolutePath());
+               } else {
+                  // 在上一層資料夾中建立一個新子資料夾
+                  if (newDir.mkdirs()) {
+                     System.out.println("成功建立子資料夾：" + newDir.getAbsolutePath());
+                     for (int i = 1; i <= 10; i++) {
+                        File newFile = new File(newDir, "Page" + i + ".txt");
+                        if (newFile.createNewFile()) {
+                           System.out.println("成功建立檔案：" + newFile.getAbsolutePath());
+                        } else {
+                           System.out.println("建立檔案失敗：" + newFile.getAbsolutePath());
+                        }
+                     }
+                  } else {
+                     System.out.println("建立子資料夾失敗");
+                  }
+                  if (createListener != null) {
+                     createListener.onCreate(name);
+                  }
+
+                  // Hide current frame
+                  frame.dispose();
+               }
+            } catch (UnsupportedEncodingException e1) {
+               e1.printStackTrace();
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+         }
+      }
+   }
+   public interface CreateListener {
+      void onCreate(String name);
+   }
 }

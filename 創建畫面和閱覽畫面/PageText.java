@@ -2,11 +2,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 public class PageText {
     private  int maxLengthForArea1=0;
-    private  int pageNow=0;
-    private  int maxPage=1;
+    private  int pageNow=1;
+    private  int maxPage=10;
     private  String  name;
     public JTextArea area1;
     public JTextArea area2;
@@ -100,7 +101,8 @@ public class PageText {
     }
     //C:\Users\88693\IdeaProjects\readingPage\out\測試2
     public void addNewPage(){
-        File file = new File("C:\\Users\\88693\\IdeaProjects\\CreatePage\\src\\textSource\\"+name+maxPage+".txt");
+
+        File file = new File(getParentDir()+"\\"+name+"\\Page"+(maxPage+1)+".txt");
         maxPage++;
         try {
             if (file.createNewFile()) {
@@ -111,41 +113,44 @@ public class PageText {
         } catch (IOException e) {
             System.err.println("failure: " + e.getMessage());
         }
-        turnToPage(maxPage-1);
+        turnToPage(maxPage);
     }
     public void turnToPage(int page){
-        area1.setText("");
-        area2.setText("");
-        int length=0;
-        double maxLength=(area1.getWidth())*19;
-        int whichPage=0;
-        int character;
-        String filePath="C:\\Users\\88693\\IdeaProjects\\CreatePage\\src\\textSource\\"+name+page+".txt";
-        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+        if(page>0||page<=maxPage){
+            area1.setText("");
+            area2.setText("");
+            int length=0;
+            double maxLength=(area1.getWidth())*19;
+            int whichPage=0;
+            int character;
+            String filePath=getParentDir()+"\\"+name+"\\Page"+page+".txt";
+            try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
 
-            while ((character = reader.read()) != -1) {
-                char ch = (char) character;
-                if(whichPage==0){
-                    area1.append(String.valueOf(ch));
-                    length=area1.getFontMetrics(area1.getFont()).stringWidth(area1.getText());
-                    if(length>=maxLength){
-                        area2.requestFocus();
-                        whichPage=1;
+                while ((character = reader.read()) != -1) {
+                    char ch = (char) character;
+                    if(whichPage==0){
+                        area1.append(String.valueOf(ch));
+                        length=area1.getFontMetrics(area1.getFont()).stringWidth(area1.getText());
+                        if(length>=maxLength){
+                            area2.requestFocus();
+                            whichPage=1;
+                        }
+                    }
+                    else{
+                        area2.append(String.valueOf(ch));
                     }
                 }
-                else{
-                    area2.append(String.valueOf(ch));
-                }
-            }
 
-            pageNow=page;
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, "Error reading file: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                pageNow=page;
+            } catch (IOException e) {
+                JOptionPane.showMessageDialog(null, "Error reading file: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
         }
     }
     public void savePage(){
         String text = area1.getText()+area2.getText();
-        String filePath = "C:\\Users\\88693\\IdeaProjects\\CreatePage\\src\\textSource\\"+name+pageNow+".txt";
+        String filePath = getParentDir()+"\\"+name+"\\Page"+pageNow+".txt";
+        System.out.println(filePath);
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
             writer.write(text);
             JOptionPane.showMessageDialog(null, "File saved successfully!");
@@ -155,5 +160,25 @@ public class PageText {
     }
     public int getPageNow(){
         return pageNow;
+    }
+    public String getParentDir(){
+        File parentDir = null;
+        try {
+            // 獲取當前類的路徑
+            String path = PageText.class.getProtectionDomain().getCodeSource().getLocation().getPath();
+            String decodedPath = URLDecoder.decode(path, "UTF-8");
+
+            // 獲取當前類所在資料夾的 File 對象
+            File currentDir = new File(decodedPath).getParentFile();
+            System.out.println("當前類的路徑: " + currentDir.getAbsolutePath());
+
+            // 獲取上一層資料夾的 File 對象
+            parentDir = currentDir.getParentFile();
+            System.out.println("上一層資料夾的路徑: " + parentDir.getAbsolutePath());
+
+        } catch (UnsupportedEncodingException e1) {
+            e1.printStackTrace();
+        }
+        return parentDir != null ? parentDir.getAbsolutePath() : null;
     }
 }
