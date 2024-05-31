@@ -1,8 +1,5 @@
 package test.frame;
 import javax.swing.*;
-
-import test.frame.Panel1;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,12 +10,11 @@ import java.net.MalformedURLException;
 
 public class Homeframe extends JFrame
 {
-    private JButton button1;
-    private JButton button2;
-    private JButton button3;
-    private JLabel label1;
-    private JLabel label2;
-    private Panel1 panel;
+    private ImageButton entryButton;
+    private JButton setttingButton;
+    private ImageButton quitButton;
+    private ImagePanel welcomePanel;
+    private ImagePanel backgroundPanel;
     private Clip clip;
     private JLayeredPane layeredPane;
     private FloatControl volumeControl;
@@ -26,57 +22,51 @@ public class Homeframe extends JFrame
 
     Homeframe(String text)
     {
+        // background
+        ImageIcon mainBackGround = new ImageIcon("mainbackground.png");
+        backgroundPanel = new ImagePanel(mainBackGround.getImage());
+        backgroundPanel.setBounds(0, 0, 800, 600);
+        backgroundPanel.setLayout(null);
+
+        //Title
+        ImageIcon titleFrame = new ImageIcon("titleframe.png");
+        welcomePanel = new ImagePanel(titleFrame.getImage());
+        welcomePanel.setBounds(175, 60, 450, 200);
+        welcomePanel.setFont(new Font(null, Font.PLAIN, 45));
+
+
+        //entry bookcase button
+        ImageIcon entryFrame = new ImageIcon("entryframe.png");
+        entryButton = new ImageButton(entryFrame.getImage());
+        entryButton.setBorderPainted(false);
+        entryButton.setContentAreaFilled(false);
+        entryButton.setBounds(270,280,250,150);
+        entryButton.addActionListener(new myActionListener());
+
+        // quit button
+        ImageIcon leaveButton = new ImageIcon("leavebutton.png");
+        quitButton = new ImageButton(leaveButton.getImage());
+        quitButton.setBorderPainted(false);
+        quitButton.setContentAreaFilled(false);
+        quitButton.setBounds(10,10,60,60);
+        quitButton.addActionListener(new myActionListener());
+
+        // setting button
+        setttingButton = new JButton("setting");
+        setttingButton.setBounds(700, 500, 75, 50);
+        setttingButton.addActionListener(new myActionListener());
+        backgroundPanel.add(welcomePanel);
+        backgroundPanel.add(entryButton);
+        backgroundPanel.add(quitButton);
+        backgroundPanel.add(setttingButton);
+        this.add(backgroundPanel);
         this.setVisible(true);
         this.setResizable(false);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(800,600);
-        setLocationRelativeTo(null); 
+        setLocationRelativeTo(null);
         this.setTitle(text);
-
-        // 分層
-        layeredPane = new JLayeredPane();
-        layeredPane.setBounds(0, 0, 800, 600);
-
-        // background
-        panel = new Panel1();
-        panel.setBounds(0, 0, 800, 600);
-        layeredPane.add(panel, JLayeredPane.DEFAULT_LAYER);
-
-        //GUI Title
-        label1 = new JLabel("Welcome to the Diary!");
-        label1.setBounds(this.getWidth() / 6 - 10, this.getHeight() / 5, this.getWidth(), 100);
-        label1.setFont(new Font(null, Font.PLAIN, 55));
-        layeredPane.add(label1, JLayeredPane.PALETTE_LAYER);
-        
-
-        //entry bookcase button
-        button1 = new JButton("Entry Bookcase");
-        button1.setBounds(this.getWidth() / 2 - 160, this.getHeight() / 3 + 80, 300, 70);
-        button1.setLayout(null);
-        button1.addActionListener(new myActionListener());
-        button1.setFont(new Font(null, Font.PLAIN, 35));
-        button1.setForeground(Color.GREEN);
-        button1.setBackground(Color.WHITE);
-        layeredPane.add(button1, JLayeredPane.PALETTE_LAYER);
-
-        // quit button
-        button3 = new JButton("Quit Diary");
-        button3.setBounds(this.getWidth() / 2 - 135, this.getHeight() / 3 + 180, 250, 60);
-        button3.setLayout(null);
-        button3.addActionListener(new myActionListener());
-        button3.setFont(new Font(null, Font.PLAIN, 35));
-        button3.setForeground(Color.GREEN);
-        button3.setBackground(Color.WHITE);
-        layeredPane.add(button3, JLayeredPane.PALETTE_LAYER);
-
-        // setting button
-        button2 = new JButton("setting");
-        button2.setBounds(this.getWidth() - 85, 0, 75, 40);
-        button2.addActionListener(new myActionListener());
-        layeredPane.add(button2, JLayeredPane.PALETTE_LAYER);
-        this.add(layeredPane);
-
-        playBackgroundMusic("music.wav");
+        //playBackgroundMusic("music.wav");
     }
 
     private class SettingWindow extends JFrame
@@ -170,11 +160,11 @@ public class Homeframe extends JFrame
         @Override
         public void actionPerformed(ActionEvent e)
         {
-            if(e.getSource() == button1)
+            if(e.getSource() == entryButton)
             {
                 // open bookcase window
             }
-            else if(e.getSource() == button2)
+            else if(e.getSource() == setttingButton)
             {
                 SettingWindow newWindow = new SettingWindow();
                 isSettingWindowOpen = true;
@@ -185,7 +175,7 @@ public class Homeframe extends JFrame
                     }
                 });
             }
-            else if(e.getSource() == button3)
+            else if(e.getSource() == quitButton)
             {
                 Homeframe.this.dispose();
             }
