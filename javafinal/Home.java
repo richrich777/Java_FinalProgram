@@ -8,12 +8,13 @@ public class Home
     public static void main(String[] args)
     {
         BookCase bookCase=new BookCase();
+        bookCase.setVisible(false);
         PageFrame pageFrame=new PageFrame("");
+        pageFrame.setVisible(false);
         getData(bookCase,pageFrame);
         creatingPage createPage=new creatingPage();
-        pageFrame.setVisible(false);
         createPage.setVisible(false);
-        bookCase.setVisible(false);
+
         Homeframe homeFrame= new Homeframe("My Diary");
         homeFrame.setHomeListener(new Homeframe.HomeListener() {
             @Override
@@ -43,7 +44,6 @@ public class Home
                 pageFrame.setName(name);
                 pageFrame.draw.setCoverColor(createPage.coverColor);
                 pageFrame.draw.setPageColor(createPage.pageColor);
-                pageFrame.text.setFontColor(createPage.fontColor);
                 bookCase.addBooksToBookCase(name,createPage.coverColor,createPage.pageColor,createPage.fontColor);
                 pageFrame.setVisible(true);
                 createPage.setVisible(false);
@@ -160,10 +160,10 @@ public class Home
                     pageFrame.setVisible(true);
                     pageFrame.draw.setCoverColor(book.coverColor);
                     pageFrame.draw.setPageColor(book.pageColor);
-                    pageFrame.text.setFontColor(book.fontColor);
+
                     pageFrame.setName(name);
                     System.out.println("Opening book: " + name);
-
+                    pageFrame.animatePageOpen();
                 }
             });
         }

@@ -10,7 +10,7 @@ public class Book {
                 // Create and show the PageFrame
                 PageFrame pageFrame = new PageFrame(name);
                 pageFrame.setVisible(true);
-
+                pageFrame.animatePageOpen();
             }
         });
 

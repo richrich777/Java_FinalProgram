@@ -24,24 +24,36 @@ public class PageFrame extends JFrame {
         this.name = name;
         text = new PageText(name,fontColor);
         draw = new drawPage();
-        JButton saveButton = new JButton("save");
-        JButton open = new JButton("open");
-        JButton back=new JButton("back");
-        JButton nextButton = new JButton("Next");
-        JButton forwardButton = new JButton("forward");
-        saveButton.setBounds(25, 25, 75, 50);
-        open.setBounds(100, 25, 75, 50);
-        back.setBounds(325,25,75,50);
-        nextButton.setBounds(175, 25, 75, 50);
-        forwardButton.setBounds(250, 25, 75, 50);
+        super.getContentPane().setBackground(new Color(220, 220 ,220));
+        ImageIcon saveButtonImg = new ImageIcon("savebutton.png");
+        ImageButton saveButton = new ImageButton(saveButtonImg.getImage());
+        saveButton.setBounds(100,25,50,50);
+        saveButton.setBorderPainted(false);
+        saveButton.setContentAreaFilled(false);
+
+        ImageIcon backButtonImg = new ImageIcon("backbookcaseimg.png");
+        ImageButton back = new ImageButton(backButtonImg.getImage());
+        back.setBounds(10,25,75,50);
+        back.setBorderPainted(false);
+        back.setContentAreaFilled(false);
+
+        ImageIcon preArrowImage = new ImageIcon("prearrow.png");
+        ImageButton forwardButton = new ImageButton(preArrowImage.getImage());
+        forwardButton.setBounds(550, 45, 75, 50);
+        forwardButton.setBorderPainted(false);
+        forwardButton.setContentAreaFilled(false);
+
+        ImageIcon nextArrowImage = new ImageIcon("nextarrow.png");
+        ImageButton nextButton = new ImageButton(nextArrowImage.getImage());
+        nextButton.setBounds(630, 45, 75, 50);
+        nextButton.setBorderPainted(false);
+        nextButton.setContentAreaFilled(false);
 
         pageLabel = new JLabel("Page " + text.getPageNow());
         pageLabel.setFont(new Font("Arial", Font.BOLD, 20));
-        pageLabel.setBounds(650, 500, 100, 50);
-        pageLabel.setForeground(new Color(0, 0, 0, 0));
+        pageLabel.setBounds(635, 500, 100, 50);
         layeredPane = new JLayeredPane();
         layeredPane.setBounds(0, 0, 800, 600);
-
         this.setSize(800, 600);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLayout(null);
@@ -50,12 +62,10 @@ public class PageFrame extends JFrame {
         layeredPane.add(text.area1, JLayeredPane.DEFAULT_LAYER);
         layeredPane.add(text.area2, JLayeredPane.DEFAULT_LAYER);
         layeredPane.add(saveButton, JLayeredPane.DEFAULT_LAYER);
-        layeredPane.add(open, JLayeredPane.DEFAULT_LAYER);
         layeredPane.add(nextButton, JLayeredPane.DEFAULT_LAYER);
         layeredPane.add(forwardButton, JLayeredPane.DEFAULT_LAYER);
         layeredPane.add(back,JLayeredPane.DEFAULT_LAYER);
         layeredPane.add(pageLabel, JLayeredPane.PALETTE_LAYER);
-
         forwardButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -75,13 +85,6 @@ public class PageFrame extends JFrame {
                 } else {
                     animatePageTurn(true);
                 }
-            }
-        });
-
-        open.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                animatePageOpen();
             }
         });
 
@@ -223,9 +226,6 @@ public class PageFrame extends JFrame {
         pageLabel.setText("Page " + text.getPageNow());
     }
 
-    //public static void main(String[] args) {
-       // PageFrame create = new PageFrame("Hello");
-    //}
     public void setName(String name){
         this.name=name;
         text.setName(name);

@@ -10,7 +10,7 @@ import java.net.MalformedURLException;
 public class Homeframe extends JFrame
 {
     private ImageButton entryButton;
-    private JButton setttingButton;
+    private ImageButton setttingButton;
     private ImageButton quitButton;
     private ImagePanel welcomePanel;
     private ImagePanel backgroundPanel;
@@ -36,30 +36,34 @@ public class Homeframe extends JFrame
         //Title
         ImageIcon titleFrame = new ImageIcon("titleframe.png");
         welcomePanel = new ImagePanel(titleFrame.getImage());
-        welcomePanel.setBounds(175, 60, 450, 200);
+        welcomePanel.setBounds(175, 60, 460, 200);
         welcomePanel.setFont(new Font(null, Font.PLAIN, 45));
 
 
         //entry bookcase button
-        ImageIcon entryFrame = new ImageIcon("entryframe.png");
-        entryButton = new ImageButton(entryFrame.getImage());
+        ImageIcon entryFrameImg = new ImageIcon("entryframe.png");
+        entryButton = new ImageButton(entryFrameImg.getImage());
         entryButton.setBorderPainted(false);
         entryButton.setContentAreaFilled(false);
-        entryButton.setBounds(270,280,250,150);
+        entryButton.setBounds(275,280,250,150);
         entryButton.addActionListener(new myActionListener());
 
         // quit button
-        ImageIcon leaveButton = new ImageIcon("leavebutton.png");
-        quitButton = new ImageButton(leaveButton.getImage());
+        ImageIcon leaveButtonImg = new ImageIcon("leavebutton.png");
+        quitButton = new ImageButton(leaveButtonImg.getImage());
         quitButton.setBorderPainted(false);
         quitButton.setContentAreaFilled(false);
-        quitButton.setBounds(10,10,60,60);
+        quitButton.setBounds(10,10,55,55);
         quitButton.addActionListener(new myActionListener());
 
         // setting button
-        setttingButton = new JButton("setting");
-        setttingButton.setBounds(700, 500, 75, 50);
+        ImageIcon settingButtonImg = new ImageIcon("voicebutton.png");
+        setttingButton = new ImageButton(settingButtonImg.getImage());
+        setttingButton.setBorderPainted(false);
+        setttingButton.setContentAreaFilled(false);
+        setttingButton.setBounds(700,10,75,60);
         setttingButton.addActionListener(new myActionListener());
+
         backgroundPanel.add(welcomePanel);
         backgroundPanel.add(entryButton);
         backgroundPanel.add(quitButton);
@@ -185,7 +189,15 @@ public class Homeframe extends JFrame
             }
             else if(e.getSource() == quitButton)
             {
-                Homeframe.this.dispose();
+                closeAllFrames();
+            }
+        }
+    }
+    private void closeAllFrames() {
+        Window[] windows = Window.getWindows();
+        for (Window window : windows) {
+            if (window instanceof JFrame) {
+                window.dispose();
             }
         }
     }

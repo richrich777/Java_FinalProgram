@@ -89,7 +89,7 @@ public class creatingPage extends JFrame{
 
       this.setSize(800,600);
       this.setVisible(true);
-
+      this.setLocationRelativeTo(null);
 
       coverButton.addActionListener(new RadioButtonListener());
       pageButton.addActionListener(new RadioButtonListener());

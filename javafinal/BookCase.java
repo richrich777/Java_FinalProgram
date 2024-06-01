@@ -30,10 +30,9 @@ public class BookCase extends JFrame {
     BookCase(){
 
         super("BookCase");
-        this.setSize(Toolkit.getDefaultToolkit().getScreenSize());
-        super.getContentPane().setBackground(new Color(255, 255 ,255));
+        super.getContentPane().setBackground(new Color(245, 245 ,245));
         currentBookCaseIndex = 0;
-        Border bookcaseline = BorderFactory.createLineBorder(new Color(139, 71 ,38),10);
+        Border bookCaseLine = BorderFactory.createLineBorder(new Color(139, 71 ,38),10);
         bookCasePanel = new JPanel(new GridBagLayout()) {
             @Override
             protected void paintComponent(Graphics g) {
@@ -50,9 +49,9 @@ public class BookCase extends JFrame {
         gbc = new GridBagConstraints();
         gbc.insets = new Insets(35, 30, 45, 40); // 設置間隔
         gbc.fill = GridBagConstraints.NONE;
-        bookCasePanel.setBounds( 275,30,490,520);
+        bookCasePanel.setBounds( 285,20,490,520);
         bookCasePanel.setBackground(new Color(139 ,90 ,0));
-        bookCasePanel.setBorder(bookcaseline);
+        bookCasePanel.setBorder(bookCaseLine);
         books = new ArrayList<Books>();
 
         ImageIcon toMainImage = new ImageIcon("home.png");
@@ -74,41 +73,34 @@ public class BookCase extends JFrame {
         nextButton = new ImageButton(nextArrowImage.getImage());
         nextButton.setBorderPainted(false);
         nextButton.setContentAreaFilled(false);
-        nextButton.setBounds(150,350,70,70);
+        nextButton.setBounds(160,330,70,70);
         nextButton.addActionListener(new ButtonListener());
 
         ImageIcon preArrowImage = new ImageIcon("prearrow.png");
         previousButton = new ImageButton(preArrowImage.getImage());
-        previousButton.setBounds(20,350,70,70);
+        previousButton.setBounds(20,330,70,70);
         previousButton.setBorderPainted(false);
         previousButton.setContentAreaFilled(false);
-
-
         previousButton.addActionListener(new ButtonListener());
 
         leftBackGroundPanel = new JPanel();
         leftBackGroundPanel.setLayout(null);
-        leftBackGroundPanel.setBackground(new Color(255 ,193 ,193));
+        leftBackGroundPanel.setBackground(new Color(238 ,238 ,209));
         currentBookCaseIndexLabel = new Label("Page 1");
-        Font f1 = new Font("仿宋",Font.BOLD+ Font.ITALIC,50);
-        currentBookCaseIndexLabel.setBounds(45,450,200,100);
-        currentBookCaseIndexLabel.setFont(f1);
+        currentBookCaseIndexLabel.setBounds(45,400,200,100);
+        currentBookCaseIndexLabel.setFont(new Font("Lucida Console",Font.BOLD,50));
 
-        Toolkit kit = Toolkit.getDefaultToolkit();
-        Dimension screenSize = kit.getScreenSize();
-        int height = screenSize.height;
-        leftBackGroundPanel.setBounds(0,0,250,height);
+        leftBackGroundPanel.setBounds(20,25,250,500);
         leftBackGroundPanel.add(Tomain);
         leftBackGroundPanel.add(currentBookCaseIndexLabel);
         leftBackGroundPanel.add(nextButton);
         leftBackGroundPanel.add(previousButton);
         leftBackGroundPanel.add(addBookButton);
+        setLayout(null);
         getContentPane().add(bookCasePanel);
         add(leftBackGroundPanel);
         setSize(800, 600);
-        int centerX = (screenSize.width - getWidth()) / 2;
-        int centerY = (screenSize.height - getHeight()) / 2;
-        setLocation(centerX, centerY);
+        setLocationRelativeTo(null);
     }
 
     public int getBooksCount(){
@@ -124,7 +116,8 @@ public class BookCase extends JFrame {
     }
     private void updateBookCasePanel() {
         bookCasePanel.removeAll();
-        currentBookCaseIndexLabel.setText("Page"+(currentBookCaseIndex+1));
+        currentBookCaseIndexLabel.setText("Page "+(currentBookCaseIndex+1));
+        currentBookCaseIndexLabel.setFont(new Font("Lucida Console",Font.BOLD,50));
         int startIndex = currentBookCaseIndex * booksPerPage;
         int endIndex = Math.min(startIndex + booksPerPage, getBooksCount());
         for (int i = 0; i < 3; i++) {
@@ -158,7 +151,7 @@ public class BookCase extends JFrame {
                 else {
                     JOptionPane.showMessageDialog(
                             BookCase.this,
-                            "Cannot move to the next page. There are no more books.",
+                            "沒有下一個書櫃了！",
                             "Error",
                             JOptionPane.ERROR_MESSAGE);
                 }
@@ -171,7 +164,7 @@ public class BookCase extends JFrame {
                 else {
                     JOptionPane.showMessageDialog(
                             BookCase.this,
-                            "Cannot move to the previous page. You are already on the first page.",
+                            "已經是最前面了！",
                             "Error",
                             JOptionPane.ERROR_MESSAGE);
                 }

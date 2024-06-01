@@ -21,9 +21,11 @@ public class PageText {
         area1.setOpaque(false);
         area1.setLineWrap(true);
         area1.setWrapStyleWord(true);
+        area1.setForeground(fontColor);
         area2.setLineWrap(true);
         area2.setBounds(425,150,225,325);
         area2.setOpaque(false);
+        area2.setForeground(fontColor);
         area1.addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {

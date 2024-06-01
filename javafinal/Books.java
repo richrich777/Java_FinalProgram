@@ -9,7 +9,8 @@ import java.security.SecureRandom;
 public class Books extends JPanel {
     private String bookName;
     private String outline;
-    private JButton readButton;
+    private ImageButton modifyButton;
+    private  JFrame bookFrame;
     Color coverColor;
     Color pageColor;
     Color fontColor;
@@ -17,14 +18,12 @@ public class Books extends JPanel {
     public void setGoToRead(goToReadListener listener) {
         this.goToRead = listener;
     }
-    private static final Color colors[] = { Color.BLUE, Color.CYAN, Color.GRAY, Color.GREEN, Color.MAGENTA, Color.ORANGE, Color.PINK,
-            Color.RED, Color.YELLOW, Color.WHITE };
     Books(String bookName,Color coverColor,Color pageColor,Color fontColor){
         this.coverColor=coverColor;
         this.pageColor=pageColor;
         this.fontColor=fontColor;
         super.setBackground(coverColor);
-        super.setPreferredSize(new Dimension(30, 100));
+        super.setPreferredSize(new Dimension(20, 80));
         Border blackline = BorderFactory.createLineBorder(Color.black,6);
         super.setBorder(blackline);
         this.bookName = bookName;
@@ -44,7 +43,7 @@ public class Books extends JPanel {
         return bookName;
     }
     public void showOutline(){
-        JFrame bookFrame = new JFrame("Book outline");
+        bookFrame = new JFrame("Book outline");
         Toolkit kit = Toolkit.getDefaultToolkit();
         Dimension screenSize = kit.getScreenSize();
         int height = screenSize.height;
@@ -59,17 +58,19 @@ public class Books extends JPanel {
         textPanel.add(text,BorderLayout.NORTH);
         textPanel.setBorder(blackline);
 
-        JPanel readButtonPanel = new JPanel(null);
-        JButton readButton = new JButton("Modify");
-        readButton.setBounds(300,80,150,100);
-        readButton.addActionListener(new ModifyListener());
-        readButtonPanel.add(readButton);
-        readButtonPanel.setBorder(blackline);
+        ImageIcon modifyButtonImg = new ImageIcon("modifyimg.png");
+        modifyButton = new ImageButton(modifyButtonImg.getImage());
+        modifyButton.setBounds(650,90,100,100);
+        modifyButton.setBorderPainted(false);
+        modifyButton.setContentAreaFilled(false);
+        modifyButton.addActionListener(new ModifyListener());
 
-        this.readButton = readButton;
+        JPanel modifyButtonPanel = new JPanel(null);
+        modifyButtonPanel.add(modifyButton);
+        modifyButtonPanel.setBorder(blackline);
 
         bookFrame.add(textPanel);
-        bookFrame.add(readButtonPanel);
+        bookFrame.add(modifyButtonPanel);
         bookFrame.setVisible(true);
         bookFrame.setResizable(false);
     }
@@ -77,9 +78,9 @@ public class Books extends JPanel {
         @Override
         public void actionPerformed(ActionEvent e) {
             System.out.println("test");
-            if(e.getSource() == readButton){
-
+            if(e.getSource() == modifyButton){
                 if(goToRead!=null){
+                    bookFrame.dispose();
                     goToRead.goToReading(bookName);
                 }
             }
