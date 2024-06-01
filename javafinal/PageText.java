@@ -185,8 +185,8 @@ public class PageText {
         return sourcesDir != null ? sourcesDir.getAbsolutePath() : null;
     }
     public void setOpacity(float opacity) {
-        area1.setForeground(new Color(fontColor.getRed(), fontColor.getGreen(), fontColor.getBlue(), opacity));
-        area2.setForeground(new Color(fontColor.getRed(), fontColor.getGreen(), fontColor.getBlue(), opacity));
+        area1.setForeground(new Color(0, 0, 0, opacity));
+        area2.setForeground(new Color(0, 0, 0, opacity));
     }
     public void setName(String name){
         this.name=name;
