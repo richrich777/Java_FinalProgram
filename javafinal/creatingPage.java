@@ -4,6 +4,7 @@ import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
@@ -161,11 +162,17 @@ public class creatingPage extends JFrame{
                System.out.println("當前類的路徑: " + currentDir.getAbsolutePath());
 
                // 獲取上一層資料夾的 File 對象
-               File parentDir = currentDir.getParentFile();
-               System.out.println("上一層資料夾的路徑: " + parentDir.getAbsolutePath());
-
+               File grandParentDir = currentDir.getParentFile().getParentFile();
+               System.out.println("上一層資料夾的路徑: " + grandParentDir.getAbsolutePath());
+               File sourcesDir = new File(grandParentDir, "sources");
+               if (!sourcesDir.exists()) {
+                  System.out.println("'sources' 資料夾不存在：" + sourcesDir.getAbsolutePath());
+                  return;
+               } else {
+                  System.out.println("'sources' 資料夾已經存在：" + sourcesDir.getAbsolutePath());
+               }
                // 在上一層資料夾中建立一個新子資料夾
-               File newDir = new File(parentDir, name);
+               File newDir = new File(sourcesDir, name);
                if (newDir.exists()) {
                   System.out.println("資料夾已經存在：" + newDir.getAbsolutePath());
                } else {
@@ -180,12 +187,54 @@ public class creatingPage extends JFrame{
                            System.out.println("建立檔案失敗：" + newFile.getAbsolutePath());
                         }
                      }
-                  } else {
+                     File coverColorData = new File (newDir,"coverColor.txt");
+                     File pageColorData = new File (newDir,"pageColor.txt");
+                     File fontColorData = new File(newDir,"fontColor.txt");
+                     if(coverColorData.createNewFile()){
+                        System.out.println("成功建立檔案：" + coverColorData.getAbsolutePath());
+                     }
+                     else{
+                        System.out.println("建立檔案失敗：" + coverColorData.getAbsolutePath());
+                     }
+                     if(pageColorData.createNewFile()){
+                        System.out.println("成功建立檔案：" + pageColorData.getAbsolutePath());
+                     }
+                     else{
+                        System.out.println("建立檔案失敗：" + pageColorData.getAbsolutePath());
+                     }
+                     if(fontColorData.createNewFile()){
+                        System.out.println("成功建立檔案：" + fontColorData.getAbsolutePath());
+                     }
+                     else{
+                        System.out.println("建立檔案失敗：" + fontColorData.getAbsolutePath());
+                     }
+                     try (FileWriter writer = new FileWriter(coverColorData)) {
+                        writer.write(coverColor.getRed()+","+coverColor.getGreen()+","+coverColor.getBlue());
+                     } catch (IOException ex) {
+                        System.out.println("寫入檔案失敗：" + coverColorData.getAbsolutePath());
+                        ex.printStackTrace();
+                     }
+                     try (FileWriter writer = new FileWriter(pageColorData)) {
+                        writer.write( pageColor.getRed()+","+pageColor.getGreen()+","+pageColor.getBlue());
+                     } catch (IOException ex) {
+                        System.out.println("寫入檔案失敗：" + coverColorData.getAbsolutePath());
+                        ex.printStackTrace();
+                     }
+                     try (FileWriter writer = new FileWriter(fontColorData)) {
+                        writer.write(  fontColor.getRed()+","+fontColor.getGreen()+","+fontColor.getBlue());
+                     } catch (IOException ex) {
+                        System.out.println("寫入檔案失敗：" + coverColorData.getAbsolutePath());
+                        ex.printStackTrace();
+                     }
+
+                     if (createListener != null) {
+                        createListener.onCreate(name);
+                     }
+                  }
+                  else {
                      System.out.println("建立子資料夾失敗");
                   }
-                  if (createListener != null) {
-                     createListener.onCreate(name);
-                  }
+
 
                   // Hide current frame
                   //creatingPage.this.dispose();

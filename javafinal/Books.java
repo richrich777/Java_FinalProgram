@@ -10,12 +10,20 @@ public class Books extends JPanel {
     private String bookName;
     private String outline;
     private JButton readButton;
+    Color coverColor;
+    Color pageColor;
+    Color fontColor;
+    private goToReadListener goToRead;
+    public void setGoToRead(goToReadListener listener) {
+        this.goToRead = listener;
+    }
     private static final Color colors[] = { Color.BLUE, Color.CYAN, Color.GRAY, Color.GREEN, Color.MAGENTA, Color.ORANGE, Color.PINK,
             Color.RED, Color.YELLOW, Color.WHITE };
-    Books(String bookName){
-        SecureRandom random = new SecureRandom();
-        int colorIndex = random.nextInt(colors.length);
-        super.setBackground(colors[colorIndex]);
+    Books(String bookName,Color coverColor,Color pageColor,Color fontColor){
+        this.coverColor=coverColor;
+        this.pageColor=pageColor;
+        this.fontColor=fontColor;
+        super.setBackground(coverColor);
         super.setPreferredSize(new Dimension(30, 100));
         Border blackline = BorderFactory.createLineBorder(Color.black,6);
         super.setBorder(blackline);
@@ -58,6 +66,8 @@ public class Books extends JPanel {
         readButtonPanel.add(readButton);
         readButtonPanel.setBorder(blackline);
 
+        this.readButton = readButton;
+
         bookFrame.add(textPanel);
         bookFrame.add(readButtonPanel);
         bookFrame.setVisible(true);
@@ -66,9 +76,16 @@ public class Books extends JPanel {
     private class ModifyListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
+            System.out.println("test");
             if(e.getSource() == readButton){
-                    //To modity books content.
+
+                if(goToRead!=null){
+                    goToRead.goToReading(bookName);
                 }
             }
+        }
+    }
+    public interface goToReadListener{
+        void goToReading(String name);
     }
 }

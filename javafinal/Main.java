@@ -10,7 +10,7 @@ public class Main {
         bookCase.setResizable(false);
 
         //bookCase.getContentPane().setBackground(Color.YELLOW);
-        bookCase.addBooksToBookCase("1");
+        /*bookCase.addBooksToBookCase("1");
         bookCase.addBooksToBookCase("2");
         bookCase.addBooksToBookCase("3");
         bookCase.addBooksToBookCase("4");
@@ -25,7 +25,7 @@ public class Main {
         bookCase.addBooksToBookCase("13");
         bookCase.addBooksToBookCase("14");
         bookCase.addBooksToBookCase("15");
-        bookCase.addBooksToBookCase("22");
+        bookCase.addBooksToBookCase("22");*/
 
     }
 }

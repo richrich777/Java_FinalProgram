@@ -23,4 +23,12 @@ public class drawPage  extends JPanel{
         draw.setStroke(new BasicStroke(3));
         draw.drawLine(300,25,300,375);
     }//畫出書本樣式
+
+    public void setPageColor(Color pageColor) {
+        this.pageColor = pageColor;
+    }
+
+    public void setCoverColor(Color coverColor) {
+        this.coverColor = coverColor;
+    }
 }

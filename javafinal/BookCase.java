@@ -3,12 +3,15 @@ import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 public class BookCase extends JFrame {
     private final int booksPerPage = 15;
     private final JPanel bookCasePanel;
     private final JPanel leftBackGroundPanel;
-    private final ArrayList<Books> books;
+    public final ArrayList<Books> books;
     private int currentBookCaseIndex;
     private Label currentBookCaseIndexLabel;
     private GridBagConstraints gbc;
@@ -114,8 +117,8 @@ public class BookCase extends JFrame {
     public int getCurrentBookCaseIndex(){
         return  currentBookCaseIndex;
     }
-    public void addBooksToBookCase(String bookName) {
-        Books book = new Books(bookName);
+    public  void addBooksToBookCase(String bookName,Color coverColor,Color pageColor,Color fontColor) {
+        Books book = new Books(bookName,coverColor,pageColor,fontColor);
         books.add(book);
         updateBookCasePanel();
     }
@@ -185,6 +188,7 @@ public class BookCase extends JFrame {
             }
         }
     }
+
     public interface toMainListener {
         void GotoMain();
     }

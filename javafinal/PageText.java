@@ -11,7 +11,9 @@ public class PageText {
     private  String  name;
     public JTextArea area1;
     public JTextArea area2;
-    PageText (String name){
+    Color fontColor;
+    PageText (String name,Color fontColor){
+        this.fontColor=fontColor;
         this.name=name;
         area1=new JTextArea();
         area2=new JTextArea();
@@ -124,6 +126,7 @@ public class PageText {
             int whichPage=0;
             int character;
             String filePath=getParentDir()+"\\"+name+"\\Page"+page+".txt";
+            System.out.println(filePath);
             try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
 
                 while ((character = reader.read()) != -1) {
@@ -162,7 +165,7 @@ public class PageText {
         return pageNow;
     }
     public String getParentDir(){
-        File parentDir = null;
+        File sourcesDir = null;
         try {
             // 獲取當前類的路徑
             String path = PageText.class.getProtectionDomain().getCodeSource().getLocation().getPath();
@@ -173,17 +176,23 @@ public class PageText {
             System.out.println("當前類的路徑: " + currentDir.getAbsolutePath());
 
             // 獲取上一層資料夾的 File 對象
-            parentDir = currentDir.getParentFile();
-            System.out.println("上一層資料夾的路徑: " + parentDir.getAbsolutePath());
+            sourcesDir = new File(currentDir.getParentFile().getParentFile(),"sources");
+            System.out.println("上一層資料夾的路徑: " + sourcesDir.getAbsolutePath());
 
         } catch (UnsupportedEncodingException e1) {
             e1.printStackTrace();
         }
-        return parentDir != null ? parentDir.getAbsolutePath() : null;
+        return sourcesDir != null ? sourcesDir.getAbsolutePath() : null;
     }
     public void setOpacity(float opacity) {
-        area1.setForeground(new Color(0, 0, 0, opacity));
-        area2.setForeground(new Color(0, 0, 0, opacity));
+        area1.setForeground(new Color(fontColor.getRed(), fontColor.getGreen(), fontColor.getBlue(), opacity));
+        area2.setForeground(new Color(fontColor.getRed(), fontColor.getGreen(), fontColor.getBlue(), opacity));
+    }
+    public void setName(String name){
+        this.name=name;
+    }
+    public void setFontColor(Color fontColor){
+        this.fontColor=fontColor;
     }
     public int getMaxPage(){
         return maxPage;

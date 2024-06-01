@@ -22,7 +22,7 @@ public class PageFrame extends JFrame {
     }
     PageFrame(String name) {
         this.name = name;
-        text = new PageText(name);
+        text = new PageText(name,fontColor);
         draw = new drawPage();
         JButton saveButton = new JButton("save");
         JButton open = new JButton("open");
@@ -228,9 +228,24 @@ public class PageFrame extends JFrame {
     //}
     public void setName(String name){
         this.name=name;
+        text.setName(name);
         text.turnToPage(1);
     }
+
+    public void setCoverColor(Color coverColor) {
+        this.coverColor = coverColor;
+    }
+
+    public void setFontColor(Color fontColor) {
+        this.fontColor = fontColor;
+    }
+
+    public void setPageColor(Color pageColor) {
+        this.pageColor = pageColor;
+    }
+
     public interface goToBookcaseListener{
         void goToBookcase();
     }
+
 }
