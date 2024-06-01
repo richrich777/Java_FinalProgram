@@ -14,7 +14,7 @@ public class creatingPage extends JFrame{
    Color pageColor=new Color(229,255,204);
    Color fontColor=Color.BLACK;
    drawCreatingPage drawPage=new drawCreatingPage(coverColor,pageColor);
-   JButton creatingButton = new JButton("創建");
+   ImageButton creatingButton;
    JRadioButton coverButton= new JRadioButton("cover");
    JRadioButton pageButton = new JRadioButton("page");
    JRadioButton fontButton = new JRadioButton("font");
@@ -57,7 +57,11 @@ public class creatingPage extends JFrame{
       greenSlider.setBounds(450,380,300,30);
       blueLabel.setBounds(440,410,300,30);
       blueSlider.setBounds(450,460,300,30);
-      creatingButton.setBounds(525,500,150,50);
+      ImageIcon createImg = new ImageIcon("createimg.png");
+      creatingButton = new ImageButton(createImg.getImage());
+      creatingButton.setBorderPainted(false);
+      creatingButton.setContentAreaFilled(false);
+      creatingButton.setBounds(555,490,75,75);
       nameText.setFont(new Font(null, Font.PLAIN, 20));
       nameInsertArea.setFont(new Font(null, Font.PLAIN, 20));
       color.setFont(new Font(null, Font.PLAIN, 20));
@@ -69,6 +73,7 @@ public class creatingPage extends JFrame{
       group.add(coverButton);
       group.add(pageButton);
       group.add(fontButton);
+
       this.add(nameText);
       this.add(nameInsertArea);
       this.add(decision);
