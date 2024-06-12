@@ -5,12 +5,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.security.SecureRandom;
 public class Books extends JPanel {
     private String bookName;
     private String outline;
     private ImageButton modifyButton;
-    private  JFrame bookFrame;
+    private JFrame bookFrame;
     Color coverColor;
     Color pageColor;
     Color fontColor;
@@ -24,7 +23,7 @@ public class Books extends JPanel {
         this.fontColor=fontColor;
         super.setBackground(coverColor);
         super.setPreferredSize(new Dimension(20, 80));
-        Border blackline = BorderFactory.createLineBorder(Color.black,6);
+        Border blackline = BorderFactory.createLineBorder(Color.black,5);
         super.setBorder(blackline);
         this.bookName = bookName;
         addMouseListener(new MouseClickHandler());

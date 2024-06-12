@@ -17,7 +17,6 @@ public class creatingPage extends JFrame{
    ImageButton creatingButton;
    JRadioButton coverButton= new JRadioButton("cover");
    JRadioButton pageButton = new JRadioButton("page");
-   JRadioButton fontButton = new JRadioButton("font");
    JPanel[] sliderPanel=new JPanel[3];
    ButtonGroup group = new ButtonGroup();
    JSlider redSlider = new JSlider(JSlider.HORIZONTAL, 0, 255, 100);
@@ -47,8 +46,7 @@ public class creatingPage extends JFrame{
       nameText.setBounds(425,20,100,30);
       nameInsertArea.setBounds(440,60,300,30);
       coverButton.setBounds(440,150,80,30);
-      pageButton.setBounds(520,150,80,30);
-      fontButton.setBounds(600,150,80,30);
+      pageButton.setBounds(580,150,80,30);
       redLabel.setBounds(440,250,300,30);
       color.setBounds(425,200,300,30);
       decision.setBounds(425 ,100,300,30);
@@ -72,7 +70,6 @@ public class creatingPage extends JFrame{
       drawPage.setBounds(-40,-40,400,500);
       group.add(coverButton);
       group.add(pageButton);
-      group.add(fontButton);
 
       this.add(nameText);
       this.add(nameInsertArea);
@@ -80,7 +77,6 @@ public class creatingPage extends JFrame{
       this.add(redSlider);
       this.add(coverButton);
       this.add(pageButton);
-      this.add(fontButton);
       this.add(color);
       this.add(redLabel);
       this.add(blueLabel);
@@ -98,7 +94,6 @@ public class creatingPage extends JFrame{
 
       coverButton.addActionListener(new RadioButtonListener());
       pageButton.addActionListener(new RadioButtonListener());
-      fontButton.addActionListener(new RadioButtonListener());
       creatingButton.addActionListener(new createButtonListener());
 
       redSlider.addChangeListener(new SliderListener());
@@ -117,10 +112,6 @@ public class creatingPage extends JFrame{
             R=pageColor.getRed();
             G=pageColor.getGreen();
             B=pageColor.getBlue();
-         } else if (e.getSource() == fontButton) {
-            R=fontColor.getRed();
-            G=fontColor.getGreen();
-            B=fontColor.getBlue();
          }
          redSlider.setValue(R);
          greenSlider.setValue(G);

@@ -50,11 +50,28 @@ public class Home
             }
         });
         pageFrame.setBookcaseListener(new PageFrame.goToBookcaseListener() {
+
             @Override
             public void goToBookcase() {
                 pageFrame.setVisible(false);
                 bookCase.setVisible(true);
+                for (Books book : bookCase.books) {
+                    book.setGoToRead(new Books.goToReadListener() {
+                        @Override
+                        public void goToReading(String name) {
+                            bookCase.setVisible(false);
+                            pageFrame.setVisible(true);
+                            pageFrame.draw.setCoverColor(book.coverColor);
+                            pageFrame.draw.setPageColor(book.pageColor);
+
+                            pageFrame.setName(name);
+                            System.out.println("Opening book: " + name);
+                            pageFrame.animatePageOpen();
+                        }
+                    });
+                }
             }
+
         });
 
     }

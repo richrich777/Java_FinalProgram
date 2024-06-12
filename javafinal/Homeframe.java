@@ -15,7 +15,6 @@ public class Homeframe extends JFrame
     private ImagePanel welcomePanel;
     private ImagePanel backgroundPanel;
     private Clip clip;
-    private JLayeredPane layeredPane;
     private FloatControl volumeControl;
     private boolean isSettingWindowOpen = false;
 

@@ -247,5 +247,4 @@ public class PageFrame extends JFrame {
     public interface goToBookcaseListener{
         void goToBookcase();
     }
-
 }
