@@ -12,7 +12,6 @@ import java.nio.file.Paths;
 
 public class Books extends JPanel {
     private String bookName;
-    private String outline;
     private ImageButton modifyButton;
     private JFrame bookFrame;
     Color coverColor;
@@ -40,9 +39,7 @@ public class Books extends JPanel {
             showOutline();
         }
     }
-    public  String getOutline(){
-        return outline;
-    }
+
     public  String getBookName(){
         return bookName;
     }
@@ -69,16 +66,29 @@ public class Books extends JPanel {
         modifyButton.setContentAreaFilled(false);
         modifyButton.addActionListener(new ModifyListener());
 
-        JPanel outlinePanel = new JPanel(new BorderLayout());
-        JTextArea textArea = new JTextArea(5, 30);
-        String content = getContent();
-        textArea.setText(content);
-        textArea.setLineWrap(true);
-        textArea.setWrapStyleWord(true);
-        textArea.setEditable(false);
-        JScrollPane scrollPane = new JScrollPane(textArea);
-        outlinePanel.setBorder(blackline);
-        outlinePanel.add(scrollPane,BorderLayout.CENTER);
+        JPanel outlinePanel = new JPanel(null);
+        JButton outlineButton = new JButton("生成大綱");
+        outlineButton.setBounds(650,95,103,40);
+        outlinePanel.add(outlineButton);
+        outlineButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(e.getSource() == outlineButton)
+                {
+                    outlinePanel.removeAll();
+                    outlinePanel.setLayout(new BorderLayout());
+                    JTextArea textArea = new JTextArea(5, 30);
+                    textArea.setLineWrap(true);
+                    textArea.setWrapStyleWord(true);
+                    textArea.setEditable(false);
+                    JScrollPane scrollPane = new JScrollPane();
+                    scrollPane.setViewportView(textArea);
+                    outlinePanel.setBorder(blackline);
+                    outlinePanel.add(scrollPane,BorderLayout.CENTER);
+                    generateOutline(textArea, 50);
+                }
+            }
+        });
 
         JPanel modifyButtonPanel = new JPanel(null);
         modifyButtonPanel.add(modifyButton);
@@ -94,7 +104,7 @@ public class Books extends JPanel {
     private String getContent() {
         int pagenumber = 1;
         String content = "";
-        while (pagenumber <= 10) {
+        while (pagenumber <= 1) {
             String filePath = "sources/" + bookName + "/Page" + pagenumber + ".txt";
             try {
                 String pageContent = Files.readString(Paths.get(filePath), StandardCharsets.UTF_8);
@@ -106,6 +116,35 @@ public class Books extends JPanel {
             }
         }
         return content;
+    }
+
+    private void generateOutline(JTextArea textArea, int delay) {
+        String content = getContent();
+        System.out.println(content);
+        content = content.replaceAll("\\s+", "");
+        System.out.println(content);
+        GPT gpt = new GPT();
+        try {
+            String text = gpt.getChatGPTResponse(content);
+            Timer timer = new Timer(delay, null);
+            ActionListener listener = new ActionListener() {
+                int index = 0;
+
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if (index < text.length()) {
+                        textArea.append(String.valueOf(text.charAt(index)));
+                        index++;
+                    } else {
+                        ((Timer) e.getSource()).stop();
+                    }
+                }
+            };
+            timer.addActionListener(listener);
+            timer.start();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 
     private class ModifyListener implements ActionListener {
@@ -120,6 +159,7 @@ public class Books extends JPanel {
             }
         }
     }
+
     public interface goToReadListener{
         void goToReading(String name);
     }
